@@ -79,7 +79,7 @@ public abstract class ServerSocket
         {
             UnPackets p = new(container);
 
-            IRecvPackage rp = RecvPackageManage.GetPackage(p.Type);
+            IRecvPackage rp = DeliveryRecvManage.GetPackage(p.Type);
 
             if (rp != null)
             {

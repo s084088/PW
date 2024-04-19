@@ -1,6 +1,6 @@
-﻿namespace PwApi.SendModels;
+﻿namespace PwApi.Models;
 
-public class SysSendMail : ISendPakcage
+public class SysSendMail : IDeliverySendPackage
 {
     public uint Type => 0x1076u;
 
@@ -35,7 +35,7 @@ public class SysSendMail : ISendPakcage
 }
 
 
-public class GRoleInventory: IPackageItem
+public class GRoleInventory : IPackageItem
 {
     public int Id { get; set; }
 

@@ -1,21 +1,14 @@
 ﻿namespace PwApi;
 
 
-public class DeliveryDB : ServerSocket
+public class DeliveryDB(string ip, int port) : ServerSocket(ip, port)
 {
-
-    public DeliveryDB(string ip, int port) : base(ip, port)
-    {
-
-    }
-
-    public void Send(ISendPakcage package)
+    public void Send(IDeliverySendPackage package)
     {
         BaseSend(package);
     }
 
-
-    public void AddRecvPackageProcess<T>(Action<T> func) where T : IRecvPackage
+    public void AddRecvPackageProcess<T>(Action<T> func) where T : IDeliveryRecvPackage
     {
         BaseAddRecvPackageProcess(func);
     }

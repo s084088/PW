@@ -1,6 +1,6 @@
-﻿namespace PwApi.RecvModels;
+﻿namespace PwApi.Models;
 
-public class AnnounceServerAttribute : IRecvPackage
+public class AnnounceServerAttribute : IDeliveryRecvPackage
 {
     public uint Type => 0x84u;
 

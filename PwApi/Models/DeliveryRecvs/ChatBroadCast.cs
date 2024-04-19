@@ -1,6 +1,6 @@
-﻿namespace PwApi.RecvModels;
+﻿namespace PwApi.Models;
 
-public class ChatBroadCast : IRecvPackage
+public class ChatBroadCast : IDeliveryRecvPackage
 {
     public uint Type => 0x78u;
 

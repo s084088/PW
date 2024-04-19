@@ -1,10 +1,10 @@
-﻿namespace PwApi.RecvModels;
+﻿namespace PwApi.Models;
 
-public class AnnounceChallengeAlgo : IRecvPackage
+public class AnnounceChallengeAlgo : IDeliveryRecvPackage
 {
     public uint Type => 0x88u;
 
-    public byte ChallengeAlgo {  get;private set; }
+    public byte ChallengeAlgo { get; private set; }
 
     public void UnPack(UnPackets up)
     {

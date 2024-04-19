@@ -1,6 +1,8 @@
-﻿namespace PwApi.SendModels;
+﻿using PwApi.Comm;
 
-public class PublicChat : ISendPakcage
+namespace PwApi.Models;
+
+public class PublicChat : IDeliverySendPackage
 {
     public uint Type => 0x4Fu;
 

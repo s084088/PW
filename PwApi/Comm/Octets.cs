@@ -25,6 +25,8 @@ public class StringOctets : Octets
 
     public StringOctets(string s) => SetString(s);
 
+    public override string ToString() => GetString();
+
     public static implicit operator StringOctets(string s) => new(s);
 
     public static implicit operator string(StringOctets s) => s.GetString();
@@ -47,6 +49,8 @@ public class XmlOctets : Octets
     public XmlOctets() { }
 
     public XmlOctets(string s) => SetXml(s);
+
+    public override string ToString() => GetXml();
 
     public static implicit operator XmlOctets(string s) => new(s);
 

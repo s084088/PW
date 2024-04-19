@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PwApi;
-using PwApi.RecvModels;
-using PwApi.SendModels;
+using PwApi.Models;
 
 Console.WriteLine("Hello, World!");
 
