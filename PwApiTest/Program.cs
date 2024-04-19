@@ -18,6 +18,11 @@ getUserRoles.Send.UserId = 64;
 
 gameDB.Send(getUserRoles);
 
+foreach (var userRole in getUserRoles.Recv.Roles)
+{
+    Console.WriteLine(userRole.Id + ":" + userRole.Name);
+}
+
 
 ////公告
 //deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => Console.WriteLine("12312312312312" + x.Message));

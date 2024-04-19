@@ -26,7 +26,7 @@ public interface IRecvPackage : IPackage, IRecv
 {
 }
 
-public interface ICallPakcage<TSend, TRecv>: IPackage where TSend : ISend where TRecv : IRecv,new()
+public interface ICallPakcage<TSend, TRecv> : IPackage where TSend : ISend where TRecv : IRecv, new()
 {
     TSend Send { get; set; }
 
@@ -66,7 +66,13 @@ public interface IGameDbCallPackage<TSend, TRecv> : ICallPakcage<TSend, TRecv> w
 
 }
 
-public interface IPackageItem
+public interface ISendPackageItem
 {
-    void PackTo(Packets packets);
+    void PackTo(Packets p);
+}
+
+
+public interface IRecvPackageItem
+{
+    void UnPack(UnPackets p);
 }

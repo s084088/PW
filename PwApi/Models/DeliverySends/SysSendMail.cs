@@ -32,7 +32,7 @@ public class SysSendMail : IDeliverySendPackage
 }
 
 
-public class GRoleInventory : IPackageItem
+public class GRoleInventory : ISendPackageItem
 {
     public int Id { get; set; }
 

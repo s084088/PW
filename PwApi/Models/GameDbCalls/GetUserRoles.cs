@@ -23,13 +23,33 @@ public class GetUserRolesRes : IRecv
 {
     public int RetCode { get; private set; }
 
-    //public IntListOctets Roles { get; private set; }
+    public List<GetUserRolesResRoleInfo> Roles { get; private set; } = [];
 
     public void UnPack(UnPackets p)
     {
         RetCode = p.UnPackInt();
-        //Roles = p.UnPackOctets<IntListOctets>();
 
-        // TODO
+        uint count = p.UnPackCUInt();
+
+        for (int i = 0; i < count; i++)
+        {
+            GetUserRolesResRoleInfo role = new();
+            role.UnPack(p);
+            Roles.Add(role);
+        }
+    }
+}
+
+
+public class GetUserRolesResRoleInfo : IRecvPackageItem
+{
+    public int Id { get; set; }
+
+    public StringOctets Name { get; set; }
+
+    public void UnPack(UnPackets p)
+    {
+        Id = p.UnPackIntReverse();
+        Name = p.UnPackOctets<StringOctets>();
     }
 }

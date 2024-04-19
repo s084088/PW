@@ -36,7 +36,7 @@ public class Packets
         data.AddRange(o.Data);
     }
 
-    public void Pack(IPackageItem item)
+    public void Pack(ISendPackageItem item)
     {
         item.PackTo(this);
     }
@@ -75,6 +75,14 @@ public class UnPackets
         return b;
     }
 
+    public byte[] UnPackBytes(int length)
+    {
+        byte[] b = new byte[length];
+        Array.Copy(Data, po, b, 0, length);
+        po += length;
+        return b;
+    }
+
     public int UnPackInt()
     {
         int i = BitConverter.ToInt32(Data, po);
@@ -82,16 +90,25 @@ public class UnPackets
         return i;
     }
 
+    public int UnPackIntReverse()
+    {
+        byte[] i = UnPackBytes(4);
+        Array.Reverse(i);
+        return BitConverter.ToInt32(i);
+    }
+
+    public uint UnPackCUInt()
+    {
+        uint r = Data.ReadCUInt(po, out int length);
+        po += length;
+        return r;
+    }
+
     public T UnPackOctets<T>() where T : Octets, new()
     {
         T o = new();
-        o.Size = Data.ReadCUInt(po, out int length);
-        o.Data = new byte[o.Size];
-
-        po += length;
-        Array.Copy(Data, po, o.Data, 0, o.Size);
-
-        po += (int)o.Size;
+        o.Size = UnPackCUInt();
+        o.Data = UnPackBytes((int)o.Size);
 
         return o;
     }
