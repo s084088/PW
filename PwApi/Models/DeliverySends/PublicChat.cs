@@ -1,6 +1,4 @@
-﻿using PwApi.Comm;
-
-namespace PwApi.Models;
+﻿namespace PwApi.Models;
 
 public class PublicChat : IDeliverySendPackage
 {
@@ -16,16 +14,14 @@ public class PublicChat : IDeliverySendPackage
 
     public StringOctets Message { get; set; }
 
-    public Packets Pack()
+    public void Pack(Packets packets)
     {
-        Packets packets = new Packets();
         packets.Pack(Cannel);
         packets.Pack(Emotion);
         packets.Pack(RoleId);
         packets.Pack(LocalSid);
         packets.Pack(Message);
 
-        return packets;
     }
 
     public override string ToString()

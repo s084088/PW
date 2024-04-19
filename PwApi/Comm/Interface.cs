@@ -5,24 +5,63 @@ public interface IPackage
     uint Type { get; }
 }
 
-public interface ISendPakcage : IPackage
+public interface ISend
 {
-    Packets Pack();
+    void Pack(Packets p);
 }
 
-public interface IDeliverySendPackage: ISendPakcage
+public interface IRecv
 {
-
-}
-
-public interface IRecvPackage : IPackage
-{
-    void UnPack(UnPackets unPackets);
+    void UnPack(UnPackets p);
 }
 
 
+
+public interface ISendPakcage : IPackage, ISend
+{
+
+}
+
+public interface IRecvPackage : IPackage, IRecv
+{
+}
+
+public interface ICallPakcage<TSend, TRecv>: IPackage where TSend : ISend where TRecv : IRecv,new()
+{
+    TSend Send { get; set; }
+
+    TRecv Recv { get; set; }
+}
+
+
+
+public interface IDeliverySendPackage : ISendPakcage
+{
+
+}
 
 public interface IDeliveryRecvPackage : IRecvPackage
+{
+
+}
+
+
+public interface IDeliveryCallPackage<TSend, TRecv> : ICallPakcage<TSend, TRecv> where TSend : ISend where TRecv : IRecv, new()
+{
+
+}
+
+public interface IGameDbSendPackage : ISendPakcage
+{
+
+}
+
+public interface IGameDbRecvPackage : IRecvPackage
+{
+
+}
+
+public interface IGameDbCallPackage<TSend, TRecv> : ICallPakcage<TSend, TRecv> where TSend : ISend where TRecv : IRecv, new()
 {
 
 }

@@ -59,3 +59,31 @@ public class XmlOctets : Octets
     public static implicit operator string(XmlOctets s) => s.GetXml();
 }
 
+public class IntListOctets : Octets
+{
+    public void SetInts(IEnumerable<int> list)
+    {
+        if (list == null) return;
+
+        List<byte> bytes = [];
+        foreach (int i in list)
+        {
+            byte[] bs = BitConverter.GetBytes(i);
+            bytes.AddRange(bs);
+        }
+        Data = bytes.ToArray();
+        Size = (uint)Data.Length;
+    }
+
+    public int[] GetInts()
+    {
+        List<int> ints = [];
+
+        for (int i = 0; i < Data.Length; i += 4)
+        {
+            int data = BitConverter.ToInt32(Data, i);
+            ints.Add(data);
+        }
+        return [.. ints];
+    }
+}

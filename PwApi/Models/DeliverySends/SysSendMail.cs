@@ -13,9 +13,8 @@ public class SysSendMail : IDeliverySendPackage
     public GRoleInventory AttachObj { get; set; } = new();
     public int AttachMoney { get; set; }
 
-    public Packets Pack()
+    public void Pack(Packets packets)
     {
-        Packets packets = new();
         packets.Pack(TId);
         packets.Pack(SysId);
         packets.Pack(SysType);
@@ -24,8 +23,6 @@ public class SysSendMail : IDeliverySendPackage
         packets.Pack(Context);
         packets.Pack(AttachObj);
         packets.Pack(AttachMoney);
-
-        return packets;
     }
 
     public override string ToString()

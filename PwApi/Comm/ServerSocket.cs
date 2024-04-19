@@ -1,12 +1,14 @@
-﻿using System.Net;
+﻿using System.Collections.Concurrent;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace PwApi.Comm;
 public abstract class ServerSocket
 {
-
     private readonly Socket socket;
     private readonly Dictionary<Type, Action<IRecvPackage>> _recvPackageProcessDict = [];
+    private readonly ConcurrentDictionary<uint, UnPackets> calls = [];
 
     public bool IsConnected { get; private set; } = false;
 
@@ -28,15 +30,40 @@ public abstract class ServerSocket
     {
         Logger.Log($"send--{package.GetType().Name}--{package}");
 
-        Packets packets = package.Pack();
+        Packets packets = new();
+        package.Pack(packets);
 
-        byte[] data = packets.GetBytes(package.Type);
-        string str = data.ToHexString();
-        socket.Send(data);
+        SendInner(packets, package.Type);
 
-        //Logger.Log("sendHex--" + data.ToHexString());
     }
 
+    protected void BaseSend<TSend, TRecv>(ICallPakcage<TSend, TRecv> package) where TSend : ISend where TRecv : IRecv,new()
+    {
+        Thread.Sleep(1000);
+        Logger.Log($"send--{package.GetType().Name}--{package}");
+
+
+        uint type = package.Type;
+        calls[type] = null;
+
+
+        Packets packets = new();
+        packets.Pack(-1);
+
+        package.Send.Pack(packets);
+        SendInner(packets, type);
+
+
+        while (calls[type] == null)
+        {
+            Thread.Sleep(1);
+        }
+
+        calls.Remove(type,out UnPackets p);
+        int v = p.UnPackInt();
+        package.Recv = new();
+        package.Recv.UnPack(p);
+    }
 
     protected void BaseAddRecvPackageProcess<T>(Action<T> func) where T : IRecvPackage
     {
@@ -75,24 +102,41 @@ public abstract class ServerSocket
         }
     }
 
+    private void SendInner(Packets packets,uint type)
+    {
+        byte[] data = packets.GetBytes(type);
+        socket.Send(data);
+
+        Logger.Log("sendHex--" + data.ToHexString());
+    }
+
     private void Analysis(byte[] container)
     {
         try
         {
             UnPackets p = new(container);
 
-            IRecvPackage rp = DeliveryRecvManage.GetPackage(p.Type);
-
-            if (rp != null)
+            //Call包
+            if(calls.ContainsKey(p.Type))
             {
-                rp.UnPack(p);
-
-                Task.Run(() => ProcessPackge(rp));
+                calls[p.Type] = p;
             }
-            else
+            else//普通包
             {
-                Logger.Log($"recvUnPackets--{p}");
+                IRecvPackage rp = DeliveryRecvManage.GetPackage(p.Type);
+
+                if (rp != null)
+                {
+                    rp.UnPack(p);
+
+                    Task.Run(() => ProcessPackge(rp));
+                }
+                else
+                {
+                    Logger.Log($"recvUnPackets--{p}");
+                }
             }
+
 
             if (p.Unknown.Length > 0)
             {
