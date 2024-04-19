@@ -7,17 +7,17 @@ Console.WriteLine("Hello, World!");
 
 DeliveryDB deliveryDB = new("192.168.200.100", 29100);
 
+//公告
 deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => Console.WriteLine("12312312312312" + x.Message));
-
 await Task.Delay(1000);
-PublicChat publicChat = new() { Message = "啦啦啦啦啦123" };
+PublicChat publicChat = new() { Message = "啦啦啦啦啦123<0><W><0:17><0><W><0:18><0><W><0:19>" };
 deliveryDB.Send(publicChat);
 
-
+//邮件
 await Task.Delay(1000);
 SysSendMail sysSendMail = new();
 sysSendMail.AttachMoney = 2000000000;
-sysSendMail.Title= "Title";
+sysSendMail.Title = "Title";
 sysSendMail.Context = "Contenx";
 sysSendMail.Receiver = 64;
 

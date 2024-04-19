@@ -31,6 +31,7 @@ public abstract class ServerSocket
         Packets packets = package.Pack();
 
         byte[] data = packets.GetBytes(package.Type);
+        string str = data.ToHexString();
         socket.Send(data);
 
         //Logger.Log("sendHex--" + data.ToHexString());
@@ -69,6 +70,7 @@ public abstract class ServerSocket
 
                 socket.Close();
                 IsConnected = false;
+                break;
             }
         }
     }

@@ -13,6 +13,7 @@ public class StringOctets : Octets
     {
         if (s == null) return;
         Data = Encoding.Unicode.GetBytes(s);
+        Size = (uint)Data.Length;
     }
 
     public string GetString()
@@ -38,6 +39,7 @@ public class XmlOctets : Octets
     {
         if (s == null) return;
         Data = Convert.FromHexString(s);
+        Size = (uint)Data.Length;
     }
 
     public string GetXml()

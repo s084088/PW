@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
 
 namespace PwApi.Comm;
 
@@ -83,14 +84,13 @@ public class UnPackets
 
     public T UnPackOctets<T>() where T : Octets, new()
     {
-        T o = new()
-        {
-            Size = Data.ReadCUInt(po, out int length),
-            Data = new byte[length]
-        };
-        Array.Copy(Data, po, o.Data, 0, length);
+        T o = new();
+        o.Size = Data.ReadCUInt(po, out int length);
+        o.Data = new byte[o.Size];
 
         po += length;
+        Array.Copy(Data, po, o.Data, 0, o.Size);
+
         po += (int)o.Size;
 
         return o;
