@@ -60,7 +60,7 @@ public abstract class ServerSocket
         }
 
         calls.Remove(type,out UnPackets p);
-        int v = p.UnPackInt();
+        _ = p.UnPackInt();
         package.Recv = new();
         package.Recv.UnPack(p);
     }
@@ -107,7 +107,7 @@ public abstract class ServerSocket
         byte[] data = packets.GetBytes(type);
         socket.Send(data);
 
-        Logger.Log("sendHex--" + data.ToHexString());
+        //Logger.Log("sendHex--" + data.ToHexString());
     }
 
     private void Analysis(byte[] container)
