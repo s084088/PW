@@ -10,17 +10,23 @@ public class WorldChat : IDeliveryRecvPackage
 
     public int SrcRoleId { get; private set; }
 
-    public StringOctets Name { get; private set; }
+    /// <summary>
+    /// string
+    /// </summary>
+    public Octet Name { get; private set; }
 
-    public StringOctets Message { get; private set; }
+    /// <summary>
+    /// string
+    /// </summary>
+    public Octet Message { get; private set; }
 
     public void UnPack(UnPackets up)
     {
         Channel = up.UnPackByte();
         Emotion = up.UnPackByte();
         SrcRoleId = up.UnPackInt();
-        Name = up.UnPackOctets<StringOctets>();
-        Message = up.UnPackOctets<StringOctets>();
+        Name = up.UnPackOctet();
+        Message = up.UnPackOctet();
     }
 
     public override string ToString()

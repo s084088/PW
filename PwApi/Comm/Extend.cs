@@ -37,9 +37,8 @@ internal static class Extend
     /// </summary>
     /// <param name="bytes">完整字节组</param>
     /// <param name="pos">开始读取的位置</param>
-    /// <param name="length">读取的CUInt长度</param>
     /// <returns>读取到的值</returns>
-    public static uint ReadCUInt(this byte[] bytes, int pos, out int length)
+    public static uint ReadCUInt(this byte[] bytes, ref int pos)
     {
         if (pos >= bytes.Length)
         {
@@ -50,7 +49,7 @@ internal static class Extend
 
         if (firstByte < 0b10000000u)
         {
-            length = 1;
+            pos += 1;
             return firstByte;
         }
 
@@ -61,10 +60,10 @@ internal static class Extend
                 throw new ArgumentOutOfRangeException(nameof(pos), "读取位置超出字节数组范围");
             }
 
-            length = 2;
             byte[] temp = new byte[2];
             Array.Copy(bytes, pos, temp, 0, 2);
             Array.Reverse(temp);
+            pos += 2;
             return BitConverter.ToUInt16(temp) - 0b1000000000000000u;
         }
 
@@ -75,10 +74,10 @@ internal static class Extend
                 throw new ArgumentOutOfRangeException(nameof(pos), "读取位置超出字节数组范围");
             }
 
-            length = 4;
             byte[] temp = new byte[4];
             Array.Copy(bytes, pos, temp, 0, 4);
             Array.Reverse(temp);
+            pos += 4;
             return BitConverter.ToUInt32(temp) - 0b11000000000000000000000000000000u;
         }
 
@@ -89,10 +88,10 @@ internal static class Extend
                 throw new ArgumentOutOfRangeException(nameof(pos), "读取位置超出字节数组范围");
             }
 
-            length = 5;
             byte[] temp = new byte[4];
             Array.Copy(bytes, pos + 1, temp, 0, 4);
             Array.Reverse(temp);
+            pos += 5;
             return BitConverter.ToUInt32(temp);
         }
     }

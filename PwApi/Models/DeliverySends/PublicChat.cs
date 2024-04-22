@@ -12,7 +12,10 @@ public class PublicChat : IDeliverySendPackage
 
     public int LocalSid { get; set; } = 0;
 
-    public StringOctets Message { get; set; }
+    /// <summary>
+    /// String
+    /// </summary>
+    public Octet Message { get; set; } = new();
 
     public void Pack(Packets packets)
     {

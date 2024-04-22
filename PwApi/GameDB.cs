@@ -7,9 +7,9 @@ public class GameDB(string ip, int port) : ServerSocket(ip, port)
         BaseSend(package);
     }
 
-    public void Send<TSend, TRecv>(IGameDbCallPackage<TSend, TRecv> package) where TSend : ISend where TRecv : IRecv, new()
+    public async Task Send<TSend, TRecv>(IGameDbCallPackage<TSend, TRecv> package) where TSend : ISend where TRecv : IRecv, new()
     {
-        BaseSend(package);
+        await BaseSend(package);
     }
 
     public void AddRecvPackageProcess<T>(Action<T> func) where T : IGameDbRecvPackage

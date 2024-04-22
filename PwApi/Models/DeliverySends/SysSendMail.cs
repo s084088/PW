@@ -8,8 +8,16 @@ public class SysSendMail : IDeliverySendPackage
     public int SysId { get; private set; } = 32;
     public byte SysType { get; private set; } = 3;
     public int Receiver { get; set; }
-    public StringOctets Title { get; set; }
-    public StringOctets Context { get; set; }
+
+    /// <summary>
+    /// string
+    /// </summary>
+    public Octet Title { get; set; } = new();
+
+    /// <summary>
+    /// string
+    /// </summary>
+    public Octet Content { get; set; } = new();
     public GRoleInventory AttachObj { get; set; } = new();
     public int AttachMoney { get; set; }
 
@@ -20,14 +28,14 @@ public class SysSendMail : IDeliverySendPackage
         packets.Pack(SysType);
         packets.Pack(Receiver);
         packets.Pack(Title);
-        packets.Pack(Context);
+        packets.Pack(Content);
         packets.Pack(AttachObj);
         packets.Pack(AttachMoney);
     }
 
     public override string ToString()
     {
-        return $"TId={TId},SysId={SysId},SysType={SysType},Receiver={Receiver},Title={Title},Context={Context},AttachObj=({AttachObj}),AttachMoney={AttachMoney}";
+        return $"TId={TId},SysId={SysId},SysType={SysType},Receiver={Receiver},Title={Title},Context={Content},AttachObj=({AttachObj}),AttachMoney={AttachMoney}";
     }
 }
 
@@ -42,7 +50,10 @@ public class GRoleInventory : ISendPackageItem
 
     public int MaxCount { get; set; } = 1;
 
-    public XmlOctets Data { get; set; }
+    /// <summary>
+    /// hexString
+    /// </summary>
+    public Octet Data { get; set; } = new();
 
     public int ProcType { get; set; }
 

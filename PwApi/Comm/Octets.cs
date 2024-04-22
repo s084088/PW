@@ -1,89 +1,51 @@
 ﻿namespace PwApi.Comm;
 
-public abstract class Octets
+public class Octet
 {
-    public uint Size { get; set; }
+    public uint Size => (uint)Data.Count;
 
-    public byte[] Data { get; set; }
-}
+    public List<byte> Data { get; set; } = [];
 
-public class StringOctets : Octets
-{
-    public void SetString(string s)
+
+
+
+
+
+    public void AddBytes(byte[] data, int pos = -1)
     {
-        if (s == null) return;
-        Data = Encoding.Unicode.GetBytes(s);
-        Size = (uint)Data.Length;
+        if (pos < 0)
+            Data.AddRange(data);
+        else
+            Data.InsertRange(pos, data);
     }
 
-    public string GetString()
+    public void AddByte(byte b, int pos = -1) => AddBytes([b], pos);
+
+    public void AddString(string s, int pos = -1) => AddBytes(Encoding.Unicode.GetBytes(s), pos);
+
+    public void AddHexString(string x, int pos = -1) => AddBytes(Convert.FromHexString(x), pos);
+
+
+
+
+
+
+
+
+    public byte[] GetBytes(int length = -1, int pos = 0)
     {
-        if (Data == null) return null;
-        return Encoding.Unicode.GetString(Data);
+        if (length < 0) length = Data.Count - pos;
+        byte[] bytes = Data.Skip(pos).Take(length).ToArray();
+        Data.RemoveRange(pos, bytes.Length);
+        return bytes;
     }
 
-    public StringOctets() { }
+    public byte GetByte(int pos) => GetBytes(1, pos)[0];
 
-    public StringOctets(string s) => SetString(s);
+    public string GetString(int length = -1, int pos = 0) => Encoding.Unicode.GetString(GetBytes(length, pos));
 
-    public override string ToString() => GetString();
+    public string GetHexString(int length = -1, int pos = 0) => Convert.ToHexString(GetBytes(length, pos));
 
-    public static implicit operator StringOctets(string s) => new(s);
 
-    public static implicit operator string(StringOctets s) => s.GetString();
-}
-
-public class XmlOctets : Octets
-{
-    public void SetXml(string s)
-    {
-        if (s == null) return;
-        Data = Convert.FromHexString(s);
-        Size = (uint)Data.Length;
-    }
-
-    public string GetXml()
-    {
-        if (Data == null) return null;
-        return Convert.ToHexString(Data);
-    }
-
-    public XmlOctets() { }
-
-    public XmlOctets(string s) => SetXml(s);
-
-    public override string ToString() => GetXml();
-
-    public static implicit operator XmlOctets(string s) => new(s);
-
-    public static implicit operator string(XmlOctets s) => s.GetXml();
-}
-
-public class IntListOctets : Octets
-{
-    public void SetInts(IEnumerable<int> list)
-    {
-        if (list == null) return;
-
-        List<byte> bytes = [];
-        foreach (int i in list)
-        {
-            byte[] bs = BitConverter.GetBytes(i);
-            bytes.AddRange(bs);
-        }
-        Data = bytes.ToArray();
-        Size = (uint)Data.Length;
-    }
-
-    public int[] GetInts()
-    {
-        List<int> ints = [];
-
-        for (int i = 0; i < Data.Length; i += 4)
-        {
-            int data = BitConverter.ToInt32(Data, i);
-            ints.Add(data);
-        }
-        return [.. ints];
-    }
+    public override string ToString() => Convert.ToHexString(Data.ToArray());
 }
