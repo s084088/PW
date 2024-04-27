@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwApi", "PwApi\PwApi.csproj", "{24B3C280-2E88-43ED-A5F1-11BD41F20010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PwApi", "PwApi\PwApi.csproj", "{24B3C280-2E88-43ED-A5F1-11BD41F20010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PwApiTest", "PwApiTest\PwApiTest.csproj", "{6AB78C18-D6AC-4607-8BC8-1D92F01B5BCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PwApiTest", "PwApiTest\PwApiTest.csproj", "{6AB78C18-D6AC-4607-8BC8-1D92F01B5BCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoAnnouncement", "AutoAnnouncement\AutoAnnouncement.csproj", "{6F1FEB08-BA92-40CC-A21B-67627F915589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6AB78C18-D6AC-4607-8BC8-1D92F01B5BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB78C18-D6AC-4607-8BC8-1D92F01B5BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB78C18-D6AC-4607-8BC8-1D92F01B5BCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F1FEB08-BA92-40CC-A21B-67627F915589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F1FEB08-BA92-40CC-A21B-67627F915589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F1FEB08-BA92-40CC-A21B-67627F915589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F1FEB08-BA92-40CC-A21B-67627F915589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
