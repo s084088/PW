@@ -1,17 +1,41 @@
 ﻿using System;
-using PwApi;
-using PwApi.Models;
+using PW.Protocol.Comm;
+using PW.Protocol.Models.DeliveryRecvs;
+using PW.Protocol.Models.DeliverySends;
 
 namespace PwApiTest;
 internal class DeliveryDBTest
 {
-    private readonly DeliveryDB deliveryDB;
+    private readonly BaseClient deliveryDB;
 
     public DeliveryDBTest()
     {
-        deliveryDB = new("192.168.200.100", 29100);
+        deliveryDB = new();
+        deliveryDB.Connect("192.168.200.100", 29100);
 
-        deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => Console.WriteLine("接收到事件ChatBroadCast---" + x.Message));
+        //deliveryDB.AddSendedEvent(x => Console.WriteLine($"发送字节组---{x.Bytes.ToHexString()}"));    //所有发送
+        //deliveryDB.AddReceivdEvent(x => Console.WriteLine($"接收字节组---{x.Bytes.ToHexString()}"));   //所有接收
+
+        deliveryDB.AddRecvedPacketsEvent(x =>
+        {
+
+            if (x.RecvPackets.Type == 0)                //解包失败,打印字节组
+                Console.WriteLine(x.RecvPackets.Data.ToHexString());
+
+            else if (x.RecvPackage == null)             //没写对应的处理包
+                Console.WriteLine(x.RecvPackets.Type);
+
+            else if (x.RecvPackage is AnnounceServerAttribute attribute)  //这可能是心跳包,不处理
+            {
+                //Console.WriteLine("接收到attribute包");
+            }
+            else                                                          //打印其他收到的包
+            {
+                Console.WriteLine($"接收到数据包===={x.RecvPackage}");
+            }
+        });
+
+        deliveryDB.AddReceive<ChatBroadCast>(x => Console.WriteLine("接收到公告---" + x.ToString()));
 
     }
 
@@ -55,7 +79,7 @@ internal class MailItem
 
     public int ProcType { get; set; }
 
-    public int ExpireDate {  get; set; }
+    public int ExpireDate { get; set; }
 
     public int Guid1 { get; set; }
 

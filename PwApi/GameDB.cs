@@ -1,4 +1,6 @@
-﻿namespace PwApi;
+﻿using PwApi.Sockets;
+
+namespace PwApi;
 
 public class GameDB(string ip, int port) : ServerSocket(ip, port)
 {

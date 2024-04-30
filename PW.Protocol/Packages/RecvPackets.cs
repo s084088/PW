@@ -1,10 +1,13 @@
-﻿namespace PW.Protocol.Packages;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Drawing;
+
+namespace PW.Protocol.Packages;
 public class RecvPackets
 {
     private int po = 0;
 
     /// <summary>
-    /// 包类型
+    /// 包类型 0为解析失败
     /// </summary>
     public uint Type { get; init; }
 
@@ -53,12 +56,17 @@ public class RecvPackets
         return r;
     }
 
-    public void UnPackOctet(IUnPackFrom unPack)
+    public Octets UnPackOctets()
+    {
+        Octets octets = new();
+        UnPack(octets);
+        return octets;
+    }
+
+    public void UnPack(IUnPackFrom unPack)
     {
         unPack.UnPackFrom(this);
     }
-
-
 
 
     public static List<RecvPackets> GetPackets(byte[] package)
@@ -76,26 +84,34 @@ public class RecvPackets
 
     private static (RecvPackets, byte[]) GetPacket(byte[] package)
     {
-        int pos = 0;
-
-        uint type = package.ReadCUInt(ref pos);
-
-        uint size = package.ReadCUInt(ref pos);
-
-        byte[] data = new byte[size];
-        Array.Copy(package, pos, data, 0, size);
-        pos += (int)size;
-
-        RecvPackets packets = new()
+        try
         {
-            Type = type,
-            Size = size,
-            Data = data
-        };
+            int pos = 0;
 
-        byte[] remainingPackage = package.Skip(pos).ToArray();
+            uint type = package.ReadCUInt(ref pos);
 
-        return (packets, remainingPackage);
+            uint size = package.ReadCUInt(ref pos);
+
+            byte[] data = new byte[size];
+            Array.Copy(package, pos, data, 0, size);
+            pos += (int)size;
+
+            RecvPackets packets = new()
+            {
+                Type = type,
+                Size = size,
+                Data = data
+            };
+
+            byte[] remainingPackage = package.Skip(pos).ToArray();
+
+            return (packets, remainingPackage);
+        }
+        catch
+        {
+            RecvPackets packets = new() { Data = package };
+            return (packets, null);
+        }
     }
 
 

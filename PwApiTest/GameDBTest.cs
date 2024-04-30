@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PwApi;
-using PwApi.Models;
+using PW.Protocol.Comm;
+using PW.Protocol.Models.GameDbCalls;
 
 namespace PwApiTest;
 
 internal class GameDBTest
 {
-    private readonly GameDB gameDB;
+    private readonly BaseClient gameDB;
 
 
     public GameDBTest()
     {
-        gameDB = new("192.168.200.100", 29400);
+        gameDB = new();
+        gameDB.Connect("192.168.200.100", 29400);
     }
 
 

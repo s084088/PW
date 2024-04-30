@@ -13,7 +13,8 @@ Console.WriteLine("Started");
 
 DeliveryDB deliveryDB = new("192.168.2.178", 29100);
 
-deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => LogWordChat(x.ToString()));
+deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => LogChatBroadCast(x.ToString()));
+deliveryDB.AddRecvPackageProcess<WorldChat>(x => LogChatBroadCast(x.ToString()));
 
 List<Chat> chats = File.ReadAllLines("messages.txt")
     .Select(Chat.GetChat)
@@ -60,10 +61,10 @@ while (chats.Count > 0)
 
 
 
-static void LogWordChat(string text)
+static void LogChatBroadCast(string text)
 {
-    string log = $"{DateTime.Now:HH:mm:ss}:  {text}";
+    string log = $"{DateTime.Now:HH:mm:ss}:  {text}{Environment.NewLine}";
 
-    Console.WriteLine(log);
-    File.AppendAllText(DateTime.Now.ToString("yy_MM") + ".log", log);
+    Console.Write(log);
+    File.AppendAllText(DateTime.Now.ToString("MM_dd") + ".log", log);
 }

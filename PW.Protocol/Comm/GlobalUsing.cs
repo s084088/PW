@@ -2,6 +2,7 @@
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
-global using System.Threading.Tasks;
-global using PwApi.Comm;
-global using PwApi.Sockets;
+global using PW.Protocol.Comm;
+
+global using PW.Protocol.Interfaces;
+global using PW.Protocol.Packages;

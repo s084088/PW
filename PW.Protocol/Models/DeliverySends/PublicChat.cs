@@ -1,8 +1,6 @@
-﻿using PwApi.Sockets;
+﻿namespace PW.Protocol.Models.DeliverySends;
 
-namespace PwApi.Models;
-
-public class PublicChat : IDeliverySendPackage
+public class PublicChat : ISendPackage
 {
     public uint Type => 0x4Fu;
 
@@ -17,16 +15,15 @@ public class PublicChat : IDeliverySendPackage
     /// <summary>
     /// String
     /// </summary>
-    public Octet Message { get; set; } = new();
+    public Octets Message { get; set; } = new();
 
-    public void Pack(Packets packets)
+    public void PackTo(SendPackets packets)
     {
         packets.Pack(Cannel);
         packets.Pack(Emotion);
         packets.Pack(RoleId);
         packets.Pack(LocalSid);
         packets.Pack(Message);
-
     }
 
     public override string ToString()

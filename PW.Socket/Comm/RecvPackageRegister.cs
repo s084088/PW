@@ -1,21 +1,21 @@
 ﻿using System.Reflection;
-using PwApi.Sockets;
+using PW.Protocol.Interfaces;
 
-namespace PwApi;
+namespace PW.Sockets.Comm;
 
-internal static class DeliveryRecvManage
+internal static class RecvPackageRegister
 {
     private static readonly Dictionary<uint, Type> packages = [];
 
-    static DeliveryRecvManage()
+    static RecvPackageRegister()
     {
         IEnumerable<Type> packageTypes = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(x => typeof(IDeliveryRecvPackage).IsAssignableFrom(x) && !x.IsAbstract);
+            .Where(x => typeof(IRecvPackage).IsAssignableFrom(x) && !x.IsAbstract);
 
         foreach (Type packageType in packageTypes)
         {
-            PropertyInfo typeProperty = packageType.GetProperty(nameof(IDeliveryRecvPackage.Type));
+            PropertyInfo typeProperty = packageType.GetProperty(nameof(IRecvPackage.Type));
             if (typeProperty != null && typeProperty.PropertyType == typeof(uint))
             {
                 uint typeValue = (uint)typeProperty.GetValue(Activator.CreateInstance(packageType));
@@ -24,8 +24,8 @@ internal static class DeliveryRecvManage
         }
     }
 
-    public static IDeliveryRecvPackage GetPackage(uint type)
+    public static IRecvPackage GetPackage(uint type)
     {
-        return packages.TryGetValue(type, out Type packageType) ? (IDeliveryRecvPackage)Activator.CreateInstance(packageType) : null;
+        return packages.TryGetValue(type, out Type packageType) ? (IRecvPackage)Activator.CreateInstance(packageType) : null;
     }
 }

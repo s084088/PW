@@ -1,4 +1,4 @@
-﻿namespace PwApi.Comm;
+﻿namespace PwApi.Sockets;
 
 public class Packets
 {

@@ -1,17 +1,16 @@
-﻿using PwApi.Sockets;
+﻿namespace PW.Protocol.Models.DeliveryRecvs;
 
-namespace PwApi.Models;
-
-public class AnnounceChallengeAlgo : IDeliveryRecvPackage
+public class AnnounceChallengeAlgo : IRecvPackage
 {
     public uint Type => 0x88u;
 
     public byte ChallengeAlgo { get; private set; }
 
-    public void UnPack(UnPackets up)
+    public void UnPackFrom(RecvPackets p)
     {
-        ChallengeAlgo = up.UnPackByte();
+        ChallengeAlgo = p.UnPackByte();
     }
+
     public override string ToString()
     {
         return $"ChallengeAlgo={ChallengeAlgo}";

@@ -1,8 +1,6 @@
-﻿using PwApi.Sockets;
+﻿namespace PW.Protocol.Models.DeliveryRecvs;
 
-namespace PwApi.Models;
-
-public class ChatBroadCast : IDeliveryRecvPackage
+public class ChatBroadCast : IRecvPackage
 {
     public uint Type => 0x78u;
 
@@ -20,18 +18,18 @@ public class ChatBroadCast : IDeliveryRecvPackage
     /// 信息
     /// 9 string
     /// </summary>
-    public Octet Message { get; private set; }
+    public Octets Message { get; private set; }
 
-    public void UnPack(UnPackets up)
+    public void UnPackFrom(RecvPackets up)
     {
         Channel = up.UnPackByte();
         Emotion = up.UnPackByte();
         SrcRoleId = up.UnPackInt();
-        Message = up.UnPackOctet();
+        Message = up.UnPackOctets();
     }
 
     public override string ToString()
     {
-        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message.ToUniString()}";
+        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message.GetString()}";
     }
 }

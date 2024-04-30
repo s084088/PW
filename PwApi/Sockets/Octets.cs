@@ -1,4 +1,4 @@
-﻿namespace PwApi.Comm;
+﻿namespace PwApi.Sockets;
 
 public class Octet
 {
@@ -47,5 +47,10 @@ public class Octet
     public string GetHexString(int length = -1, int pos = 0) => Convert.ToHexString(GetBytes(length, pos));
 
 
-    public override string ToString() => Convert.ToHexString(Data.ToArray());
+
+
+
+    public string ToUniString() => Encoding.Unicode.GetString(Data.ToArray());
+
+    public string ToHexString() => Convert.ToHexString(Data.ToArray());
 }

@@ -1,4 +1,6 @@
-﻿namespace PwApi.Models;
+﻿using PwApi.Sockets;
+
+namespace PwApi.Models;
 
 public class GetUserRoles : IGameDbCallPackage<GetUserRolesArg, GetUserRolesRes>
 {

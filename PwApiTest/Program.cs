@@ -8,16 +8,16 @@ Console.WriteLine("Hello, World!");
 
 
 
-//DeliveryDBTest deliveryDBTest = new();
+DeliveryDBTest deliveryDBTest = new();
 
-//await Task.Delay(1000);
-//deliveryDBTest.SendPublicChat("啦啦啦啦啦123<0><W><0:17><0><W><0:18><0><W><0:19>");
+await Task.Delay(1000);
+deliveryDBTest.SendPublicChat("啦啦啦啦啦123<0><W><0:17><0><W><0:18><0><W><0:19>");
 
 
 //await Task.Delay(1000);
 //MailItem mailItem = new()
 //{
-//    Id = 122649,
+//    Id = 12649,
 //    Count = 1,
 //    ProcType = 19,
 //    Guid1 = 1509020271,
@@ -33,14 +33,14 @@ Console.WriteLine("Hello, World!");
 
 
 
-GameDBTest gameDB = new();
+//GameDBTest gameDB = new();
 
-await Task.Delay(1000);
-var roles = await gameDB.GetRolesAsync(64);
-foreach (var userRole in roles)
-{
-    Console.WriteLine(userRole.Key + ":" + userRole.Value);
-}
+//await Task.Delay(1000);
+//var roles = await gameDB.GetRolesAsync(64);
+//foreach (var userRole in roles)
+//{
+//    Console.WriteLine(userRole.Key + ":" + userRole.Value);
+//}
 
 
 

@@ -58,6 +58,6 @@ public class Octets : IPackTo, IUnPackFrom
 
     public override string ToString()
     {
-        return $"SendPackage---Data:{data.ToArray().ToHexString()}";
+        return $"Octets---Data:{data.ToArray().ToHexString()}";
     }
 }

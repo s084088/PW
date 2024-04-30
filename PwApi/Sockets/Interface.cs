@@ -1,4 +1,4 @@
-﻿namespace PwApi.Comm;
+﻿namespace PwApi.Sockets;
 
 public interface IPackage
 {
@@ -17,7 +17,9 @@ public interface IRecv
 
 
 
-public interface ISendPakcage : IPackage, ISend
+
+
+public interface ISendPackage : IPackage, ISend
 {
 
 }
@@ -26,7 +28,7 @@ public interface IRecvPackage : IPackage, IRecv
 {
 }
 
-public interface ICallPakcage<TSend, TRecv> : IPackage where TSend : ISend where TRecv : IRecv, new()
+public interface ICallPackage<TSend, TRecv> : IPackage where TSend : ISend where TRecv : IRecv
 {
     TSend Send { get; set; }
 
@@ -35,7 +37,7 @@ public interface ICallPakcage<TSend, TRecv> : IPackage where TSend : ISend where
 
 
 
-public interface IDeliverySendPackage : ISendPakcage
+public interface IDeliverySendPackage : ISendPackage
 {
 
 }
@@ -46,12 +48,12 @@ public interface IDeliveryRecvPackage : IRecvPackage
 }
 
 
-public interface IDeliveryCallPackage<TSend, TRecv> : ICallPakcage<TSend, TRecv> where TSend : ISend where TRecv : IRecv, new()
+public interface IDeliveryCallPackage<TSend, TRecv> : ICallPackage<TSend, TRecv> where TSend : ISend where TRecv : IRecv
 {
 
 }
 
-public interface IGameDbSendPackage : ISendPakcage
+public interface IGameDbSendPackage : ISendPackage
 {
 
 }
@@ -61,7 +63,7 @@ public interface IGameDbRecvPackage : IRecvPackage
 
 }
 
-public interface IGameDbCallPackage<TSend, TRecv> : ICallPakcage<TSend, TRecv> where TSend : ISend where TRecv : IRecv, new()
+public interface IGameDbCallPackage<TSend, TRecv> : ICallPackage<TSend, TRecv> where TSend : ISend where TRecv : IRecv
 {
 
 }

@@ -1,8 +1,6 @@
-﻿using PwApi.Sockets;
+﻿namespace PW.Protocol.Models.DeliveryRecvs;
 
-namespace PwApi.Models;
-
-public class AnnounceServerAttribute : IDeliveryRecvPackage
+public class AnnounceServerAttribute : IRecvPackage
 {
     public uint Type => 0x84u;
 
@@ -10,7 +8,7 @@ public class AnnounceServerAttribute : IDeliveryRecvPackage
 
     public int FreeCreatTime { get; private set; }
 
-    public void UnPack(UnPackets up)
+    public void UnPackFrom(RecvPackets up)
     {
         Attr = up.UnPackInt();
         FreeCreatTime = up.UnPackInt();

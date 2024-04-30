@@ -1,8 +1,6 @@
-﻿using PwApi.Sockets;
+﻿namespace PW.Protocol.Models.DeliverySends;
 
-namespace PwApi.Models;
-
-public class SysSendMail : IDeliverySendPackage
+public class SysSendMail : ISendPackage
 {
     public uint Type => 0x1076u;
 
@@ -14,16 +12,17 @@ public class SysSendMail : IDeliverySendPackage
     /// <summary>
     /// string
     /// </summary>
-    public Octet Title { get; set; } = new();
+    public Octets Title { get; set; } = new();
 
     /// <summary>
     /// string
     /// </summary>
-    public Octet Content { get; set; } = new();
+    public Octets Content { get; set; } = new();
     public GRoleInventory AttachObj { get; set; } = new();
     public int AttachMoney { get; set; }
 
-    public void Pack(Packets packets)
+
+    public void PackTo(SendPackets packets)
     {
         packets.Pack(TId);
         packets.Pack(SysId);
@@ -42,7 +41,7 @@ public class SysSendMail : IDeliverySendPackage
 }
 
 
-public class GRoleInventory : ISendPackageItem
+public class GRoleInventory : IPackTo
 {
     public int Id { get; set; }
 
@@ -55,7 +54,7 @@ public class GRoleInventory : ISendPackageItem
     /// <summary>
     /// hexString
     /// </summary>
-    public Octet Data { get; set; } = new();
+    public Octets Data { get; set; } = new();
 
     public int ProcType { get; set; }
 
@@ -67,7 +66,7 @@ public class GRoleInventory : ISendPackageItem
 
     public int Mask { get; set; }
 
-    public void PackTo(Packets packets)
+    public void PackTo(SendPackets packets)
     {
         packets.Pack(Id);
         packets.Pack(Pos);

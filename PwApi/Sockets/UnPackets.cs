@@ -1,4 +1,4 @@
-﻿namespace PwApi.Comm;
+﻿namespace PwApi.Sockets;
 
 public class UnPackets
 {
@@ -77,7 +77,7 @@ public class UnPackets
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Hex解包失败:{Convert.ToHexString(package)}{Environment.NewLine}{ex}");
+                Logger.Log($"Hex解包失败:{Convert.ToHexString(package)}{Environment.NewLine}{ex}");
                 break;
             }
         }
