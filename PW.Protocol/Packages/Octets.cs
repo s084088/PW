@@ -8,19 +8,20 @@ public class Octets : IPackTo, IUnPackFrom
 
     public Octets(byte[] bytes) => data = [.. bytes];
 
-    public void AddBytes(byte[] b, int pos = -1)
+    public Octets AddBytes(byte[] b, int pos = -1)
     {
         if (pos < 0)
             data.AddRange(b);
         else
             data.InsertRange(pos, b);
+        return this;
     }
 
-    public void AddByte(byte b, int pos = -1) => AddBytes([b], pos);
+    public Octets AddByte(byte b, int pos = -1) => AddBytes([b], pos);
 
-    public void AddString(string s, int pos = -1) => AddBytes(Encoding.Unicode.GetBytes(s), pos);
+    public Octets AddString(string s, int pos = -1) => AddBytes(Encoding.Unicode.GetBytes(s), pos);
 
-    public void AddHexString(string x, int pos = -1) => AddBytes(Convert.FromHexString(x), pos);
+    public Octets AddHexString(string x, int pos = -1) => AddBytes(Convert.FromHexString(x), pos);
 
     public void PackTo(SendPackets p)
     {

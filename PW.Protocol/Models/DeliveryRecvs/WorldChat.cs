@@ -10,27 +10,21 @@ public class WorldChat : IRecvPackage
 
     public int SrcRoleId { get; private set; }
 
-    /// <summary>
-    /// string
-    /// </summary>
-    public Octets Name { get; private set; }
+    public string Name { get; private set; }
 
-    /// <summary>
-    /// string
-    /// </summary>
-    public Octets Message { get; private set; }
+    public string Message { get; private set; }
 
     public void UnPackFrom(RecvPackets up)
     {
         Channel = up.UnPackByte();
         Emotion = up.UnPackByte();
         SrcRoleId = up.UnPackInt();
-        Name = up.UnPackOctets();
-        Message = up.UnPackOctets();
+        Name = up.UnPackOctets().GetString();
+        Message = up.UnPackOctets().GetString();
     }
 
     public override string ToString()
     {
-        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Name={Name.GetString()},Message={Message.GetString()}";
+        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Name={Name},Message={Message}";
     }
 }

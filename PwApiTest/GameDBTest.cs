@@ -25,7 +25,7 @@ internal class GameDBTest
 
         await gameDB.Send(getUserRoles);
 
-        return getUserRoles.Recv.Roles.ToDictionary(x => x.Id, x => x.Name.GetString());
+        return getUserRoles.Recv.Roles.ToDictionary(x => x.Id, x => x.Name);
 
     }
 }

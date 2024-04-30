@@ -1,5 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Drawing;
+﻿using System.Net;
 
 namespace PW.Protocol.Packages;
 public class RecvPackets
@@ -40,7 +39,7 @@ public class RecvPackets
     {
         int i = BitConverter.ToInt32(Data, po);
         po += 4;
-        return i;
+        return IPAddress.NetworkToHostOrder(i);
     }
 
     public int UnPackIntReverse()

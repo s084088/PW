@@ -15,7 +15,7 @@ public class PublicChat : ISendPackage
     /// <summary>
     /// String
     /// </summary>
-    public Octets Message { get; set; } = new();
+    public string Message { get; set; }
 
     public void PackTo(SendPackets packets)
     {
@@ -23,7 +23,8 @@ public class PublicChat : ISendPackage
         packets.Pack(Emotion);
         packets.Pack(RoleId);
         packets.Pack(LocalSid);
-        packets.Pack(Message);
+
+        packets.Pack(new Octets().AddString(Message));
     }
 
     public override string ToString()

@@ -14,22 +14,18 @@ public class ChatBroadCast : IRecvPackage
 
     public int SrcRoleId { get; private set; }
 
-    /// <summary>
-    /// 信息
-    /// 9 string
-    /// </summary>
-    public Octets Message { get; private set; }
+    public string Message { get; private set; }
 
     public void UnPackFrom(RecvPackets up)
     {
         Channel = up.UnPackByte();
         Emotion = up.UnPackByte();
         SrcRoleId = up.UnPackInt();
-        Message = up.UnPackOctets();
+        Message = up.UnPackOctets().GetString();
     }
 
     public override string ToString()
     {
-        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message.GetString()}";
+        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message}";
     }
 }

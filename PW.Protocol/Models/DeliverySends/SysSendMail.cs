@@ -8,16 +8,8 @@ public class SysSendMail : ISendPackage
     public int SysId { get; private set; } = 32;
     public byte SysType { get; private set; } = 3;
     public int Receiver { get; set; }
-
-    /// <summary>
-    /// string
-    /// </summary>
-    public Octets Title { get; set; } = new();
-
-    /// <summary>
-    /// string
-    /// </summary>
-    public Octets Content { get; set; } = new();
+    public string Title { get; set; }
+    public string Content { get; set; }
     public GRoleInventory AttachObj { get; set; } = new();
     public int AttachMoney { get; set; }
 
@@ -28,8 +20,8 @@ public class SysSendMail : ISendPackage
         packets.Pack(SysId);
         packets.Pack(SysType);
         packets.Pack(Receiver);
-        packets.Pack(Title);
-        packets.Pack(Content);
+        packets.Pack(new Octets().AddString(Title));
+        packets.Pack(new Octets().AddString(Content));
         packets.Pack(AttachObj);
         packets.Pack(AttachMoney);
     }
@@ -51,10 +43,7 @@ public class GRoleInventory : IPackTo
 
     public int MaxCount { get; set; } = 1;
 
-    /// <summary>
-    /// hexString
-    /// </summary>
-    public Octets Data { get; set; } = new();
+    public string Data { get; set; } = string.Empty;
 
     public int ProcType { get; set; }
 
@@ -72,7 +61,7 @@ public class GRoleInventory : IPackTo
         packets.Pack(Pos);
         packets.Pack(Count);
         packets.Pack(MaxCount);
-        packets.Pack(Data);
+        packets.Pack(new Octets().AddHexString(Data));
         packets.Pack(ProcType);
         packets.Pack(ExpireDate);
         packets.Pack(Guid1);

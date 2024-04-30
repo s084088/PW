@@ -31,18 +31,21 @@ internal class DeliveryDBTest
             }
             else                                                          //打印其他收到的包
             {
-                Console.WriteLine($"接收到数据包===={x.RecvPackage}");
+                Console.WriteLine($"接收到数据包===={x.RecvPackage.GetType()}===={x.RecvPackage}");
             }
         });
 
+
+
         deliveryDB.AddReceive<ChatBroadCast>(x => Console.WriteLine("接收到公告---" + x.ToString()));
+        deliveryDB.AddReceive<WorldChat>(x => Console.WriteLine("接收到世界聊天---" + x.ToString()));
 
     }
 
     public void SendPublicChat(string message)
     {
         PublicChat publicChat = new();
-        publicChat.Message.AddString(message);
+        publicChat.Message = message;
 
         deliveryDB.Send(publicChat);
     }
@@ -51,8 +54,8 @@ internal class DeliveryDBTest
     public void SendMail(int roleId, string title, string content, int money, MailItem mailItem)
     {
         SysSendMail sysSendMail = new();
-        sysSendMail.Title.AddString(title);
-        sysSendMail.Content.AddString(content);
+        sysSendMail.Title = title;
+        sysSendMail.Content = content;
         sysSendMail.Receiver = roleId;
         sysSendMail.AttachMoney = money;
 
@@ -64,7 +67,7 @@ internal class DeliveryDBTest
         sysSendMail.AttachObj.Guid1 = mailItem.Guid1;
         sysSendMail.AttachObj.Guid2 = mailItem.Guid2;
         sysSendMail.AttachObj.Mask = mailItem.Mask;
-        sysSendMail.AttachObj.Data.AddHexString(mailItem.Data);
+        sysSendMail.AttachObj.Data= mailItem.Data;
 
         deliveryDB.Send(sysSendMail);
 

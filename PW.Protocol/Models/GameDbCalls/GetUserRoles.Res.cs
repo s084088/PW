@@ -30,11 +30,11 @@ public record GetUserRolesResRoleInfo : IUnPackFrom
 {
     public int Id { get; set; }
 
-    public Octets Name { get; set; }
+    public string Name { get; set; }
 
     public void UnPackFrom(RecvPackets p)
     {
         Id = p.UnPackIntReverse();
-        Name = p.UnPackOctets();
+        Name = p.UnPackOctets().GetString();
     }
 }
