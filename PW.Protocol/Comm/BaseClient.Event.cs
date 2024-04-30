@@ -3,6 +3,7 @@
 public partial class BaseClient
 {
     private readonly List<Action<ClientSendEventArgs>> _sendings = [];
+    private readonly List<Action<ClientRecvEventArgs>> _recveds = [];
 
     public void AddSendingPacketsEvent(Action<ClientSendEventArgs> sending) => _sendings.Add(sending);
     protected virtual void OnSendingPackets(ClientSendEventArgs args)
@@ -14,7 +15,6 @@ public partial class BaseClient
         }
     }
 
-    private readonly List<Action<ClientRecvEventArgs>> _recveds = [];
 
     public void AddRecvedPacketsEvent(Action<ClientRecvEventArgs> sending) => _recveds.Add(sending);
     protected virtual void OnRecvedPackets(ClientRecvEventArgs args)
