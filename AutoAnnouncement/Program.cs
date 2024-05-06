@@ -1,65 +1,47 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using PwApi.Models;
-using PwApi;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using AutoAnnouncement;
+using FluentScheduler;
+using PW.Protocol.Comm;
+using PW.Protocol.Models.DeliveryRecvs;
+using PW.Protocol.Models.DeliverySends;
 
 Console.WriteLine("Started");
 
+BaseClient deliveryDB = new();
+deliveryDB.Connect("192.168.2.178", 29100);
 
-DeliveryDB deliveryDB = new("192.168.2.178", 29100);
+deliveryDB.AddReceive<ChatBroadCast>(x => LogChatBroadCast(x.ToString()));
+deliveryDB.AddReceive<WorldChat>(x => LogChatBroadCast(x.ToString()));
 
-deliveryDB.AddRecvPackageProcess<ChatBroadCast>(x => LogChatBroadCast(x.ToString()));
-deliveryDB.AddRecvPackageProcess<WorldChat>(x => LogChatBroadCast(x.ToString()));
+JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(12, 15));
+JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于5分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(12, 25));
+JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(21, 15));
+JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于5分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(21, 25));
 
-List<Chat> chats = File.ReadAllLines("messages.txt")
-    .Select(Chat.GetChat)
-    .Where(x => x != null)
-    .OrderBy(x => x.Time)
-    .ToList();
+JobManager.AddJob(() => SendMessage("《勇闯冥兽城》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(19, 45));
+JobManager.AddJob(() => SendMessage("《勇闯冥兽城》活动将于5分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Monday).At(19, 55));
 
-if (chats.Count == 0)
-{
-    Console.WriteLine("没有读取到数据");
-    Console.ReadLine();
-    return;
-}
-while (chats[0].Time < DateTime.Now)
-{
-    Chat c = chats[0];
-    chats.Remove(c);
-    chats.Add(c.GetNextTime());
-    chats = chats.OrderBy(x => x.Time).ToList();
-}
+JobManager.AddJob(() => SendMessage("《龙宫寻宝》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Tuesday).At(19, 45));
+JobManager.AddJob(() => SendMessage("《龙宫寻宝》活动将于5分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Tuesday).At(19, 55));
 
-Console.WriteLine($"载入了{chats.Count}条数据");
+JobManager.AddJob(() => SendMessage("《夺宝骑兵》活动将于15分钟后开始，可从祖龙城竞技场管理员处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Friday).At(17, 45));
+JobManager.AddJob(() => SendMessage("《夺宝骑兵》活动将于5分钟后开始，可从祖龙城竞技场管理员处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Friday).At(17, 55));
 
+JobManager.AddJob(() => SendMessage("《丛林遗迹》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Sunday).At(14, 45));
+JobManager.AddJob(() => SendMessage("《丛林遗迹》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Weeks().On(DayOfWeek.Sunday).At(14, 55));
 
-while (chats.Count > 0)
-{
-    Chat c = chats.FirstOrDefault();
-    if (c.Time < DateTime.Now)
-    {
-        chats.Remove(c);
-        chats.Add(c.GetNextTime());
-        chats = chats.OrderBy(x => x.Time).ToList();
+JobManager.AddJob(() => SendMessage("《月度赛马》活动将于1小时后开始，即将停止报名！"), s => s.ToRunEvery(1).Months().On(28).At(18, 10));
+JobManager.AddJob(() => SendMessage("《月度赛马》活动将于20分钟后开始，可从各主城赛马点准备"), s => s.ToRunEvery(1).Months().On(28).At(18, 50));
+JobManager.AddJob(() => SendMessage("《月度赛马》活动将于5分钟后开始，可从各主城赛马点准备"), s => s.ToRunEvery(1).Months().On(28).At(19, 05));
 
-        PublicChat publicChat = new();
-        publicChat.Message.AddString(c.Message);
-        deliveryDB.Send(publicChat);
-    }
-    else
-    {
-        Thread.Sleep(1000);
-    }
-}
+JobManager.Start();
 
 
 
+
+void SendMessage(string text) => deliveryDB.Send(new PublicChat { Message = text });
 
 static void LogChatBroadCast(string text)
 {
