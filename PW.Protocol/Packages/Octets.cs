@@ -54,6 +54,8 @@ public class Octets : IPackTo, IUnPackFrom
 
     public string GetString() => Encoding.Unicode.GetString(GetBytes(-1, 0));
 
+    public int GetInt() => BitConverter.ToInt32(GetBytes(4, 0));
+
 
 
 

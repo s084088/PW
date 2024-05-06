@@ -21,7 +21,19 @@ public class WorldChat : IRecvPackage
         Emotion = up.UnPackByte();
         SrcRoleId = up.UnPackInt();
         Name = up.UnPackOctets().GetString();
-        Message = up.UnPackOctets().GetString();
+
+        Octets o = up.UnPackOctets();
+        if (Channel == 8) //韦小宝重要物品喊话
+        {
+            int id = o.GetInt();
+            string name = o.GetString();
+            name = name.TrimEnd('\0');
+            Message = $"{name} 获得了 {id}";
+        }
+        else
+        {
+            Message = o.GetString();
+        }
     }
 
     public override string ToString()
