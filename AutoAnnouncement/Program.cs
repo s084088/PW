@@ -1,19 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System;
-using System.IO;
+using AutoAnnouncement;
 using FluentScheduler;
-using PW.Protocol.Comm;
-using PW.Protocol.Models.DeliveryRecvs;
-using PW.Protocol.Models.DeliverySends;
 
 Console.WriteLine("Started");
 
-BaseClient deliveryDB = new();
-deliveryDB.Connect("192.168.2.178", 29100);
-
-deliveryDB.AddReceive<ChatBroadCast>(x => LogChatBroadCast(x.ToString()));
-deliveryDB.AddReceive<WorldChat>(x => LogChatBroadCast(x.ToString()));
 
 JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于15分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(12, 15));
 JobManager.AddJob(() => SendMessage("《蛇岛赛马》活动将于5分钟后开始，可从各主城小狼处入场"), s => s.ToRunEvery(1).Days().At(12, 25));
@@ -38,15 +30,8 @@ JobManager.AddJob(() => SendMessage("《月度赛马》活动将于5分钟后开
 
 JobManager.Start();
 
+Console.ReadLine();
 
 
+void SendMessage(string text) => Tool.Send(text);
 
-void SendMessage(string text) => deliveryDB.Send(new PublicChat { Message = text });
-
-static void LogChatBroadCast(string text)
-{
-    string log = $"{DateTime.Now:HH:mm:ss}:  {text}{Environment.NewLine}";
-
-    Console.Write(log);
-    File.AppendAllText(DateTime.Now.ToString("MM_dd") + ".log", log);
-}

@@ -8,7 +8,9 @@ namespace Util.Libs.Sockets;
 public abstract partial class SocketClient
 {
     private Socket _socket;
-    private bool _isRuning;
+    private bool _isRuning = false;
+
+    public bool IsRunning => _isRuning;
 
     public void Connect(string ip, int port)
     {
