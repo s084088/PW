@@ -10,9 +10,7 @@ internal static class Tool
 {
     public static BaseClient deliveryDB;
 
-    static Tool() => Connect();
-
-    static void Connect()
+    public static void Connect()
     {
         Task.Run(async () =>
         {
@@ -24,12 +22,13 @@ internal static class Tool
                     {
                         deliveryDB = new();
                         deliveryDB.Connect("192.168.2.178", 29100);
-                        deliveryDB.AddReceive<ChatBroadCast>(x => LogChatBroadCast(x.ToString()));
-                        deliveryDB.AddReceive<WorldChat>(x => LogChatBroadCast(x.ToString()));
+                        deliveryDB.AddReceive<ChatBroadCast>(x => LogChatBroadCast(x.ToString(), x.Data));
+                        deliveryDB.AddReceive<WorldChat>(x => LogChatBroadCast(x.ToString(), x.Data));
+                        Console.WriteLine($"{DateTime.Now:dd-HH:mm:ss}--服务器连接成功");
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"服务器连接失败{e}");
+                        Console.WriteLine($"{DateTime.Now:dd-HH:mm:ss}--服务器连接失败{e}");
                     }
                 }
                 await Task.Delay(3000);
@@ -52,12 +51,17 @@ internal static class Tool
 
     }
 
-    private static void LogChatBroadCast(string text)
+    private static void LogChatBroadCast(string text, byte[] data)
     {
-        string log = $"{DateTime.Now:HH:mm:ss}:  {text}{Environment.NewLine}";
+        string hex = $"{DateTime.Now:HH:mm:ss}:  {data.ToHexString()}{Environment.NewLine}";
+        Console.Write(hex);
+        File.AppendAllText(DateTime.Now.ToString("MM_dd") + ".log", hex);
 
+        string log = $"{DateTime.Now:HH:mm:ss}:  {text}{Environment.NewLine}";
         Console.Write(log);
         File.AppendAllText(DateTime.Now.ToString("MM_dd") + ".log", log);
+
+
     }
 
 }

@@ -3,6 +3,7 @@
 public class AnnounceServerAttribute : IRecvPackage
 {
     public uint Type => 0x84u;
+    public byte[] Data { get; set; }
 
     public int Attr { get; private set; }
 
@@ -16,6 +17,6 @@ public class AnnounceServerAttribute : IRecvPackage
 
     public override string ToString()
     {
-        return $"Attr={Attr},FreeCreatTime={FreeCreatTime}";
+        return $"AnnounceServerAttribute---Attr={Attr},FreeCreatTime={FreeCreatTime}";
     }
 }

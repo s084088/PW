@@ -15,6 +15,7 @@ public interface ISendPackage : IPackage, IPackTo
 
 public interface IRecvPackage : IPackage, IUnPackFrom
 {
+    byte[] Data { get; internal set; }
 }
 
 public interface ICallPackage<TSend, TRecv> : IPackage where TSend : IPackTo where TRecv : IUnPackFrom

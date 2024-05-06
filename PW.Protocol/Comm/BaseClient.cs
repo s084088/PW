@@ -105,7 +105,11 @@ public partial class BaseClient : SocketClient
             {
                 IRecvPackage rp = RecvPackageRegister.GetPackage(p.Type);
 
-                if (rp != null) rp.UnPackFrom(p);
+                if (rp != null)
+                {
+                    rp.Data = p.Data;
+                    rp.UnPackFrom(p);
+                }
 
                 ClientRecvEventArgs args = new(p, rp);
 

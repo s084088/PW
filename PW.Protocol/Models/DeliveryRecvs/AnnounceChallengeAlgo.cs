@@ -3,6 +3,7 @@
 public class AnnounceChallengeAlgo : IRecvPackage
 {
     public uint Type => 0x88u;
+    public byte[] Data { get; set; }
 
     public byte ChallengeAlgo { get; private set; }
 
@@ -13,6 +14,6 @@ public class AnnounceChallengeAlgo : IRecvPackage
 
     public override string ToString()
     {
-        return $"ChallengeAlgo={ChallengeAlgo}";
+        return $"AnnounceChallengeAlgo---ChallengeAlgo={ChallengeAlgo}";
     }
 }

@@ -3,6 +3,7 @@
 public class ChatBroadCast : IRecvPackage
 {
     public uint Type => 0x78u;
+    public byte[] Data { get; set; }
 
     /// <summary>
     /// 频道
@@ -16,6 +17,7 @@ public class ChatBroadCast : IRecvPackage
 
     public string Message { get; private set; }
 
+
     public void UnPackFrom(RecvPackets up)
     {
         Channel = up.UnPackByte();
@@ -26,6 +28,6 @@ public class ChatBroadCast : IRecvPackage
 
     public override string ToString()
     {
-        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message}";
+        return $"ChatBroadCast---Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Message={Message}";
     }
 }

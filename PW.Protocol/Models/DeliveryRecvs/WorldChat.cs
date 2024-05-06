@@ -3,6 +3,7 @@
 public class WorldChat : IRecvPackage
 {
     public uint Type => 0x85u;
+    public byte[] Data { get; set; }
 
     public byte Channel { get; private set; }
 
@@ -25,6 +26,6 @@ public class WorldChat : IRecvPackage
 
     public override string ToString()
     {
-        return $"Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Name={Name},Message={Message}";
+        return $"WorldChat---Channel={Channel},Emotion={Emotion},SrcRoleId={SrcRoleId},Name={Name},Message={Message}";
     }
 }

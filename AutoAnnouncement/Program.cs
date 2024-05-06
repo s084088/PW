@@ -30,8 +30,8 @@ JobManager.AddJob(() => SendMessage("《月度赛马》活动将于5分钟后开
 
 JobManager.Start();
 
-Console.ReadLine();
-
+Tool.Connect();
 
 void SendMessage(string text) => Tool.Send(text);
 
+Console.ReadLine();
