@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/.Sln Items/">
+    <File Path="CLAUDE.md" />
+    <File Path="Start-Claude.ps1" />
+  </Folder>
+  <Folder Name="/0/">
+    <Project Path="Util/Util.csproj" />
+  </Folder>
+  <Folder Name="/1/">
+    <Project Path="PW.Protocol/PW.Protocol.csproj" />
+  </Folder>
+  <Project Path="AutoAnnouncement/AutoAnnouncement.csproj" />
+  <Project Path="PwApiTest/PwApiTest.csproj" />
+</Solution>
