@@ -1,4 +1,5 @@
-﻿global using System;
+// 全局 using 指令：本项目所有 .cs 文件无需重复 using 即可使用以下命名空间。
+global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
